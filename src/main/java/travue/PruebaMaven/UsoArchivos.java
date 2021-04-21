@@ -18,10 +18,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class UsoArchivos {
 
-	private String rutaViajes = "..\\PruebaMaven\\src\\main\\java\\archivos\\prueba.csv";
+	private String rutaViajes = "..\\PruebaMaven\\src\\main\\java\\archivos\\Viajes.csv";
 	private String rutaUsuarios = "..\\PruebaMaven\\src\\main\\java\\archivos\\Usuarios.csv";
 
-	public void listarViajes() {
+	public ArrayList<Viajes> listarViajes() {
 		String[][] cabeceras = null;
 		String[][] body = null;
 		ArrayList viajes = new ArrayList();
@@ -103,36 +103,41 @@ public class UsoArchivos {
 		} catch (Exception e) {
 			e.getMessage();
 		}
+		return datosViajes;
+
 	}
 
-	public void anadirViaje(Viajes viaje) {
+	public void anadirViaje(ArrayList<Viajes> viaje) {
 
 		XSSFWorkbook libro = new XSSFWorkbook();
 		XSSFSheet hoja1 = libro.createSheet("hoja1");
 
 		// Cabecera de la hoja de excel
-		String[] header = new String[] { "ID", "NOMBRE", "FECHA INICIO", "FECHA FIN", "PRECIO", "PROFESOR",
-				"PLAZAS DISPONIBLES" };
+		// String[] header = new String[] { "ID", "NOMBRE", "FECHA INICIO", "FECHA FIN",
+		// "PRECIO", "PROFESOR",
+		// "PLAZAS DISPONIBLES" };
 
-		// Contenido de la hoja de excel
-		String[][] cuerpo = new String[][] { { viaje.getId(), viaje.getNombre(), viaje.getFechaInicio(),
-				viaje.getFechaFin(), String.valueOf(viaje.getPrecio()), viaje.getProfesor(),
-				String.valueOf(viaje.getPlazasDisponibles()) } };
-
-		// Generar los datos para el documento
-		for (int i = 0; i <= cuerpo.length; i++) {
-			XSSFRow row = hoja1.createRow(i); // Se crea la fila
-			for (int j = 0; j < header.length; j++) {
-				if (i == 0) { // Para la cabecera
-					XSSFCell cell = row.createCell(j); // Se crean las celdas pra la cabecera
-					cell.setCellValue(header[j]); // Se añade el contenido
-				} else {
-					XSSFCell cell = row.createCell(j); // Se crean las celdas para el contenido
-					cell.setCellValue(cuerpo[i - 1][j]); // Se añade el contenido
-				}
+		for (int k = 0; k <= viaje.size(); k++) {
+			String[][] cuerpo = new String[][] {
+					{ "ID", "NOMBRE", "FECHA INICIO", "FECHA FIN", "PRECIO", "PROFESOR", "PLAZAS DISPONIBLES" } };
+			// Contenido de la hoja de excel
+			int kmenos1 = k - 1;
+			if (k != 0) {
+				cuerpo = new String[][] { { viaje.get(kmenos1).getId(), viaje.get(kmenos1).getNombre(),
+						viaje.get(kmenos1).getFechaInicio(), viaje.get(kmenos1).getFechaFin(),
+						String.valueOf(viaje.get(kmenos1).getPrecio()), viaje.get(kmenos1).getProfesor(),
+						String.valueOf(viaje.get(kmenos1).getPlazasDisponibles()) } };
 			}
-		}
+			XSSFRow row = hoja1.createRow(k); // Se crea la fila
+			for (int j = 0; j < 7; j++) {
+				System.out.println("FILA "+k);
+				System.out.println("COLUMNA "+j);
+				XSSFCell cell = row.createCell(j); // Se crean las celdas para el contenido
+				cell.setCellValue(cuerpo[k][j]); // Se añade el contenido
 
+			}
+
+		}
 		// Crear el archivo
 		try (OutputStream fileOut = new FileOutputStream(rutaViajes)) {
 			// System.out.println("SE CREO EL EXCEL");
