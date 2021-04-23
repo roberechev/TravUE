@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class Login {
 /*
 	public static void main(String[] args) {
-		UsoArchivos us = new UsoArchivos();
+		UsoArchivos usA = new UsoArchivos();
+		Users usuario;
 		Scanner sc = new Scanner(System.in);
 		String seleccionLogin = "0";
 
@@ -20,14 +21,14 @@ public class Login {
 		}
 
 		switch (seleccionLogin) {
-		case "1":
+		case "1": // INICIAR SESION
 			System.out.println("user");
 			String userI = sc.nextLine();
 			System.out.println("password");
 			String passwordI = sc.nextLine();
-			us.comprobarUsuario(userI, passwordI);
+			usA.comprobarUsuario(userI, passwordI);
 			break;
-		case "2":
+		case "2": // CREAR CUENTA
 			System.out.println("User");
 			String user = sc.nextLine();
 			System.out.println("password");
@@ -43,7 +44,8 @@ public class Login {
 			String estudios = sc.nextLine();
 			System.out.println("email");
 			String email = sc.nextLine();
-			us.crearCuenta(user, password, nombreCompleto, admin, estudios, email);
+			usuario = new Users(55, user, password, nombreCompleto, admin, estudios, email);
+			usA.crearCuenta(usuario);
 			break;
 		}
 
@@ -58,6 +60,8 @@ public class Login {
 			if (comprobacion.equals(passAdmin)) {
 				admin = 1;
 			}
+		} else {
+			System.out.println("No eres ADMIN");
 		}
 		return admin;
 	}
