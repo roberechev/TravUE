@@ -21,6 +21,10 @@ public class UsoArchivos {
 	private String rutaViajes = "..\\PruebaMaven\\src\\main\\java\\archivos\\Viajes.csv";
 	private String rutaUsuarios = "..\\PruebaMaven\\src\\main\\java\\archivos\\Usuarios.csv";
 
+	/*
+	 * Este metodo lee el excel de Viajes y lo convierte en un ArrayList de Viajes
+	 * eliminando la cabecera
+	 */
 	public ArrayList<Viajes> listarViajes() {
 		String[][] cabeceras = null;
 		String[][] body = null;
@@ -53,10 +57,10 @@ public class UsoArchivos {
 
 					}
 
-					System.out.print(todasLasCeldas + " - ");
+					// System.out.print(todasLasCeldas + " - ");
 					viajes.add(todasLasCeldas);// añadimos al array la celda del excel
 				}
-				System.out.println("");
+				// System.out.println("");
 			}
 
 			/*
@@ -98,9 +102,6 @@ public class UsoArchivos {
 
 			}
 
-			for (Viajes row : datosViajes) {
-				System.out.println(row.toString()); // Vemos que funcione pintando uno a uno todos los viajes anadidos
-			}
 		} catch (Exception e) {
 			e.getMessage();
 		}
@@ -108,6 +109,9 @@ public class UsoArchivos {
 
 	}
 
+	/*
+	 * Este metodo mete el ArrayList de viajes en excel
+	 */
 	public void anadirViaje(ArrayList<Viajes> viaje) {
 
 		XSSFWorkbook libro = new XSSFWorkbook();
@@ -145,9 +149,40 @@ public class UsoArchivos {
 		}
 	}
 
+	/*
+	 * Este metodo pinta un ArrayList de Viajes en consola
+	 */
+	public void pintarViajes(ArrayList<Viajes> viajes) {
+		String separador = " | ";
+		System.out.println("ID" + separador + "NOMBRE" + separador + "FECHA INICIO" + separador + "FECHA FIN"
+				+ separador + "PRECIO" + separador + "PROFESOR" + separador + "PLAZAS DISPONIBLES");
+		// System.out.println("");
+		for (Viajes v : viajes) {
+			System.out.println(v.getId() + separador + v.getNombre() + separador + v.getFechaInicio() + separador
+					+ v.getFechaFin() + separador + v.getPrecio() + separador + v.getProfesor() + separador
+					+ v.getPlazasDisponibles());
+		}
+	}
+
+	/*
+	 * Este metodo pinta un ArrayList de Users en consola
+	 */
+	public void pintarUsuarios(ArrayList<Users> users) {
+		String separador = " | ";
+		System.out.println("ID" + separador + "USER" + separador + "PASSWORD" + separador + "NOMBRE COMPLETO"
+				+ separador + "ADMIN" + separador + "ESTUDIOS" + separador + "EMAIL");
+		// System.out.println("");
+		for (Users u : users) {
+			System.out.println(u.getId() + separador + u.getUser() + separador + u.getPassword() + separador
+					+ u.getNombreCompleto() + separador + u.getAdmin() + separador + u.getEstudios() + separador
+					+ u.getEmail());
+		}
+	}
+
 	public void crearCuenta(Users usuario) {
 		UsoArchivos us = new UsoArchivos();
-		ArrayList<Users> todosUsuarios = us.listarUsuarios();
+		ArrayList<Users> todosUsuarios = us.listarUsuarios();// podria pasarlo por parametro para no hacer aqui una
+																// llamada
 		todosUsuarios.add(usuario);
 		XSSFWorkbook libro = new XSSFWorkbook();
 		XSSFSheet hoja1 = libro.createSheet("hoja1");
@@ -196,7 +231,7 @@ public class UsoArchivos {
 		ArrayList usuarios = new ArrayList();
 		ArrayList<Users> todosUsuarios = new ArrayList<Users>();
 
-		try (FileInputStream file = new FileInputStream(new File(rutaViajes))) {
+		try (FileInputStream file = new FileInputStream(new File(rutaUsuarios))) {
 
 			XSSFWorkbook libro = new XSSFWorkbook(file);// Lee archivo
 			XSSFSheet sheet = libro.getSheetAt(0);// Obtener la hoja a leer
@@ -222,10 +257,10 @@ public class UsoArchivos {
 
 					}
 
-					System.out.print(todasLasCeldas + " - ");
+					// System.out.print(todasLasCeldas + " - ");
 					usuarios.add(todasLasCeldas);// añadimos al arrayList la celda del excel
 				}
-				System.out.println("");
+				// System.out.println("");
 			}
 
 			/*
@@ -237,12 +272,12 @@ public class UsoArchivos {
 			 */
 			String convertidorArrayListUsuarios = "";
 			for (int i = 0; i < usuarios.size(); i++) {
-				convertidorArrayListUsuarios += "..o.." + usuarios.get(i); // Guardamos los objetos con un separador
+				convertidorArrayListUsuarios += ".xx." + usuarios.get(i); // Guardamos los objetos con un separador
 				if ((i + 1) % 7 == 0 && i != 0 && i != 6 && i != 7) { // Dividimos entre 7 ya que son los atributos de
 																		// nuestros viajes, pero hay que eliminar los 7
 																		// primeros ya que son la cabecera y no nos
 																		// aportan nada
-					String dat[] = convertidorArrayListUsuarios.split("..o.."); // hacemos un split para guardar cada
+					String dat[] = convertidorArrayListUsuarios.split(".xx."); // hacemos un split para guardar cada
 																				// objeto en su sitio
 					double idDouble = Double.parseDouble(dat[1]);
 					int id = (int) idDouble;
@@ -267,9 +302,6 @@ public class UsoArchivos {
 
 			}
 
-			for (Users u : todosUsuarios) {
-				System.out.println(u.toString()); // Vemos que funcione pintando uno a uno todos los viajes anadidos
-			}
 		} catch (Exception e) {
 			e.getMessage();
 		}

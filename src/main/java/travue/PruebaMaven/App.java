@@ -11,9 +11,17 @@ public class App {
 		 * 
 		 * ArrayList<Viajes> viajes = us.listarViajes(); viajes.add(vi5);
 		 * us.anadirViaje(viajes);
+		 * 
+		 * 
+		 * ArrayList<Users> todosUsuarios = us.listarUsuarios(); for (Users u :
+		 * todosUsuarios) { System.out.println(u.toString()); // Vemos que funcione
+		 * pintando uno a uno todos los viajes anadidos }
 		 */
 		UsoArchivos us = new UsoArchivos();
-		us.listarUsuarios();
+		
+		ArrayList<Users> todosUsuarios = us.listarUsuarios();
+		us.pintarUsuarios(todosUsuarios);
+		
 
 	}
 
