@@ -17,10 +17,6 @@ public class App {
 		 * todosUsuarios) { System.out.println(u.toString()); // Vemos que funcione
 		 * pintando uno a uno todos los viajes anadidos }
 		 */
-		UsoArchivos us = new UsoArchivos();
-		
-		ArrayList<Users> todosUsuarios = us.listarUsuarios();
-		us.pintarUsuarios(todosUsuarios);
 		
 
 	}

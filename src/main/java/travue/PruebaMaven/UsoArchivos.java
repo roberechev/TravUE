@@ -112,7 +112,7 @@ public class UsoArchivos {
 	/*
 	 * Este metodo mete el ArrayList de viajes en excel
 	 */
-	public void anadirViaje(ArrayList<Viajes> viaje) {
+	public void anadirViajeaExcel(ArrayList<Viajes> viaje) {
 
 		XSSFWorkbook libro = new XSSFWorkbook();
 		XSSFSheet hoja1 = libro.createSheet("hoja1");
@@ -179,10 +179,11 @@ public class UsoArchivos {
 		}
 	}
 
-	public void crearCuenta(Users usuario) {
-		UsoArchivos us = new UsoArchivos();
-		ArrayList<Users> todosUsuarios = us.listarUsuarios();// podria pasarlo por parametro para no hacer aqui una
-																// llamada
+	/*
+	 * Este metodo pide un nuevo User y lo añade al arrayList de Users para
+	 * seguidamente guardar todos los cambios en el excel
+	 */
+	public void crearCuenta(Users usuario, ArrayList<Users> todosUsuarios) {
 		todosUsuarios.add(usuario);
 		XSSFWorkbook libro = new XSSFWorkbook();
 		XSSFSheet hoja1 = libro.createSheet("hoja1");
@@ -213,9 +214,6 @@ public class UsoArchivos {
 
 		}
 
-		for (Users u : todosUsuarios) {
-			System.out.println(u.toString());
-		}
 		// Crear el archivo
 		try (OutputStream fileOut = new FileOutputStream(rutaUsuarios)) {
 			// System.out.println("SE CREO EL EXCEL");
@@ -227,6 +225,10 @@ public class UsoArchivos {
 
 	}
 
+	/*
+	 * Este metodo lee el excel de Usuarios y lo convierte en un ArrayList de
+	 * Usuarios eliminando la cabecera
+	 */
 	public ArrayList<Users> listarUsuarios() {
 		ArrayList usuarios = new ArrayList();
 		ArrayList<Users> todosUsuarios = new ArrayList<Users>();
@@ -309,8 +311,22 @@ public class UsoArchivos {
 		return todosUsuarios;
 	}
 
-	public void comprobarUsuario(String userI, String passwordI) {
+	
 
+	/*
+	 * Este metodo verifica que el usuario y la contraseña introducidos al iniciar
+	 * sesion sean iguales a algun usuario y contraseña de dentro del excel con los
+	 * usuarios. Si existe devuelve el usuario completo y en caso contrario null
+	 */
+	public Users comprobarUsuario(String userI, String passwordI, ArrayList<Users> todosUsuarios) {
+		Users usuarioExistente = null;
+		for (Users u : todosUsuarios) {
+			if (userI.equals(u.getUser()) && passwordI.equals(u.getPassword())) {
+				usuarioExistente = new Users(u.getId(), u.getUser(), u.getPassword(), u.getNombreCompleto(),
+						u.getAdmin(), u.getEstudios(), u.getEmail());
+			}
+		}
+		return usuarioExistente;
 	}
 
 }
