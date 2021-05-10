@@ -1,7 +1,6 @@
 package travue.PruebaMaven;
 
 public class Users {
-	int id;
 	String user;
 	String password;
 	String nombreCompleto;
@@ -9,10 +8,8 @@ public class Users {
 	String estudios;
 	String email;
 
-	public Users(int id, String user, String password, String nombreCompleto, int admin, String estudios,
-			String email) {
+	public Users(String user, String password, String nombreCompleto, int admin, String estudios, String email) {
 		super();
-		this.id = id;
 		this.user = user;
 		this.password = password;
 		this.nombreCompleto = nombreCompleto;
@@ -23,14 +20,6 @@ public class Users {
 
 	public Users() {
 		super();
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getUser() {
@@ -83,8 +72,8 @@ public class Users {
 
 	@Override
 	public String toString() {
-		return "Users [id=" + id + ", user=" + user + ", password=" + password + ", nombreCompleto=" + nombreCompleto
-				+ ", admin=" + admin + ", estudios=" + estudios + ", email=" + email + "]";
+		return "Users [user=" + user + ", password=" + password + ", nombreCompleto=" + nombreCompleto + ", admin="
+				+ admin + ", estudios=" + estudios + ", email=" + email + "]";
 	}
 
 }
