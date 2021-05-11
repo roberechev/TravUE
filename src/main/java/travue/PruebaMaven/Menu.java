@@ -63,6 +63,7 @@ public class Menu {
 			String opcion = sc.nextLine();
 			switch (opcion) {
 			case "1":
+				todosViajes = usA.listarViajes();
 				usA.pintarViajes(todosViajes);
 				break;
 			case "2":
@@ -78,23 +79,53 @@ public class Menu {
 					todosComentarios = usA.leerComentarios();
 					usA.pintarComentarios(todosComentarios);
 				} else {
-					System.out.println("Tienes que elegir 1 o 2");
+					System.out.println("Solo puedes ver o escribir comentarios");
 				}
 				break;
 			case "3":
-				System.out.println("Tu usuario es: " + usuario.toString());
+				String adm = "No";
+				String separar = " | ";
+				if (usuario.getAdmin() == 1) {
+					adm = "Si";
+				}
+				System.out.println("USUARIO | PASSWORD | NOMBRE COMPLETO | ADMIN | ESTUDIOS | EMAIL");
+				System.out.println(
+						usuario.getUser() + separar + usuario.getPassword() + separar + usuario.getNombreCompleto()
+								+ separar + adm + separar + usuario.getEstudios() + separar + usuario.getEmail());
+				System.out.println("¿Quieres modificar tu email?\n1 - Si\n2 - No");
+				String opcionModificacion = sc.nextLine();
+				if (opcionModificacion.equals("1")) {
+					System.out.println("Escribe el gmail que quieres utilizar: ");
+					String nuevoEmail = sc.nextLine();
+					usuario.setEmail(nuevoEmail);// aqui modifico el gmail en la variable temporal
+
+					ArrayList<Users> todosUsuarios = usA.listarUsuarios();
+					/*
+					 * con este foreach cambio el gmail dentro de la lista de usuarios y lo añado al
+					 * excel para modificarlo definitivamente
+					 */
+					for (Users u : todosUsuarios) {
+						if (usuario.getUser().equals(u.getUser()) && usuario.getPassword().equals(u.getPassword())) {
+							u.setEmail(nuevoEmail);
+						}
+					}
+
+					usA.crearCuenta(todosUsuarios);
+
+				}
+
 				break;
 			case "4":
 				ArrayList<Viajes> vi = usA.listarViajes();
 				usA.pintarViajes(vi);
-				System.out.println("Introduce el ID del viaje al que quieres inscribirte");
+				System.out.println("Introduce el ID del viaje al que quieres inscribirte: ");
 				String idViaje = sc.nextLine();
 				inscribirseViaje(idViaje, vi);
 				break;
 			case "5":
 				ArrayList<Viajes> viaj = usA.listarViajes();
 				usA.pintarViajes(viaj);
-				System.out.println("Introduce el ID del viaje para cancelar tu inscripcion");
+				System.out.println("Introduce el ID del viaje para cancelar tu inscripcion: ");
 				String idViaj = sc.nextLine();
 				cancelarViaje(idViaj, viaj);
 				break;
@@ -118,6 +149,8 @@ public class Menu {
 					String asunto = "INCRIPCION";
 					String cuerpo = "Estimado...";
 					mandarEmail(usuario, asunto, cuerpo);
+					usA.anadirViajeaExcel(todosViajes);
+					break;
 				} else {
 					System.out.println("Este viaje esta completo");
 				}
@@ -132,10 +165,13 @@ public class Menu {
 	public void cancelarViaje(String idViaje, ArrayList<Viajes> todosViajes) {
 		for (Viajes v : todosViajes) {
 			if (idViaje.equals(v.getId())) {
+
 				v.setPlazasDisponibles(v.getPlazasDisponibles() + 1);// disminuimos las plazas disponibles
 				String asunto = "CANCELACION";
 				String cuerpo = "Estimado...";
 				mandarEmail(usuario, asunto, cuerpo);
+				usA.anadirViajeaExcel(todosViajes);
+				break;
 
 			} else {
 				System.out.println("Ese viaje no existe");

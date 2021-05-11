@@ -27,6 +27,7 @@ public class UsoArchivos {
 	private String rutaViajes = "..\\PruebaMaven\\src\\main\\java\\archivos\\Viajes.csv";
 	private String rutaUsuarios = "..\\PruebaMaven\\src\\main\\java\\archivos\\Usuarios.csv";
 	private String rutaComentarios = "..\\PruebaMaven\\src\\main\\java\\archivos\\Comentarios.csv";
+	private String separadorParaLeer = "·";
 
 	/*
 	 * Este metodo lee el excel de Viajes y lo convierte en un ArrayList de Viajes
@@ -79,13 +80,15 @@ public class UsoArchivos {
 			 */
 			String convertidorArrayListViajes = "";
 			for (int i = 0; i < viajes.size(); i++) {
-				convertidorArrayListViajes += "..o.." + viajes.get(i); // Guardamos los objetos con un separador
+				convertidorArrayListViajes += separadorParaLeer + viajes.get(i); // Guardamos los objetos con un
+																					// separador
 				if ((i + 1) % 7 == 0 && i != 0 && i != 6 && i != 7) { // Dividimos entre 7 ya que son los atributos de
 																		// nuestros viajes, pero hay que eliminar los 7
 																		// primeros ya que son la cabecera y no nos
 																		// aportan nada
-					String dat[] = convertidorArrayListViajes.split("..o.."); // hacemos un split para guardar cada
-																				// objeto en su sitio
+					String dat[] = convertidorArrayListViajes.split(separadorParaLeer); // hacemos un split para guardar
+																						// cada
+					// objeto en su sitio
 					String id = dat[1];
 					String nombre = dat[2];
 					String fechaInicio = dat[3];
@@ -176,8 +179,8 @@ public class UsoArchivos {
 	 */
 	public void pintarUsuarios(ArrayList<Users> users) {
 		String separador = " | ";
-		System.out.println("USER" + separador + "PASSWORD" + separador + "NOMBRE COMPLETO"
-				+ separador + "ADMIN" + separador + "ESTUDIOS" + separador + "EMAIL");
+		System.out.println("USER" + separador + "PASSWORD" + separador + "NOMBRE COMPLETO" + separador + "ADMIN"
+				+ separador + "ESTUDIOS" + separador + "EMAIL");
 		// System.out.println("");
 		for (Users u : users) {
 			System.out.println(u.getUser() + separador + u.getPassword() + separador + u.getNombreCompleto() + separador
@@ -201,8 +204,7 @@ public class UsoArchivos {
 	 * Este metodo pide un nuevo User y lo añade al arrayList de Users para
 	 * seguidamente guardar todos los cambios en el excel
 	 */
-	public void crearCuenta(Users usuario, ArrayList<Users> todosUsuarios) {
-		todosUsuarios.add(usuario);
+	public void crearCuenta(ArrayList<Users> todosUsuarios) {
 		XSSFWorkbook libro = new XSSFWorkbook();
 		XSSFSheet hoja1 = libro.createSheet("hoja1");
 
@@ -291,13 +293,15 @@ public class UsoArchivos {
 			 */
 			String convertidorArrayListUsuarios = "";
 			for (int i = 0; i < usuarios.size(); i++) {
-				convertidorArrayListUsuarios += ".xx." + usuarios.get(i); // Guardamos los objetos con un separador
+				convertidorArrayListUsuarios += separadorParaLeer + usuarios.get(i); // Guardamos los objetos con un
+																						// separador
 				if ((i + 1) % 6 == 0 && i != 0 && i != 5 && i != 6) { // Dividimos entre 7 ya que son los atributos de
 																		// nuestros viajes, pero hay que eliminar los 7
 																		// primeros ya que son la cabecera y no nos
 																		// aportan nada
-					String dat[] = convertidorArrayListUsuarios.split(".xx."); // hacemos un split para guardar cada
-																				// objeto en su sitio
+					String dat[] = convertidorArrayListUsuarios.split(separadorParaLeer); // hacemos un split para
+																							// guardar cada
+					// objeto en su sitio
 
 					String user = dat[1];
 					String password = dat[2];
@@ -424,13 +428,15 @@ public class UsoArchivos {
 			 */
 			String convertidorArrayListComentarios = "";
 			for (int i = 0; i < coment.size(); i++) {
-				convertidorArrayListComentarios += "..o.." + coment.get(i); // Guardamos los objetos con un separador
+				convertidorArrayListComentarios += separadorParaLeer + coment.get(i); // Guardamos los objetos con un
+																						// separador
 				if ((i + 1) % 2 == 0 && i != 0 && i != 1 && i != 2) { // Dividimos entre 7 ya que son los atributos de
 																		// nuestros viajes, pero hay que eliminar los 7
 																		// primeros ya que son la cabecera y no nos
 																		// aportan nada
-					String dat[] = convertidorArrayListComentarios.split("..o.."); // hacemos un split para guardar cada
-																					// objeto en su sitio
+					String dat[] = convertidorArrayListComentarios.split(separadorParaLeer); // hacemos un split para
+																								// guardar cada
+					// objeto en su sitio
 					String user = dat[1];
 					String comentUser = dat[2];
 

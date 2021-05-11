@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Login {
-/*
+
 	public static void main(String[] args) {
 		UsoArchivos usA = new UsoArchivos();
 		Users usuario;
@@ -59,8 +59,9 @@ public class Login {
 			String estudios = sc.nextLine();
 			System.out.println("email");
 			String email = sc.nextLine();
-			usuario = new Users(55, user, password, nombreCompleto, admin, estudios, email);
-			usA.crearCuenta(usuario, todosUsuarios);
+			usuario = new Users(user, password, nombreCompleto, admin, estudios, email);
+			todosUsuarios.add(usuario);
+			usA.crearCuenta(todosUsuarios);
 			break;
 		}
 
@@ -80,5 +81,5 @@ public class Login {
 		}
 		return admin;
 	}
-*/
+
 }
