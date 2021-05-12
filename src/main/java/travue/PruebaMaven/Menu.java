@@ -142,20 +142,27 @@ public class Menu {
 	}
 
 	public void inscribirseViaje(String idViaje, ArrayList<Viajes> todosViajes) {
+		int contador = 0;
 		for (Viajes v : todosViajes) {
+
 			if (idViaje.equals(v.getId())) {
 				if (v.getPlazasDisponibles() != 0) {
 					v.setPlazasDisponibles(v.getPlazasDisponibles() - 1);// disminuimos las plazas disponibles
 					String asunto = "INCRIPCION";
 					String cuerpo = "Estimado...";
+					System.out.println("Te has apuntado al viaje: " + v.toString());
 					mandarEmail(usuario, asunto, cuerpo);
 					usA.anadirViajeaExcel(todosViajes);
 					break;
 				} else {
 					System.out.println("Este viaje esta completo");
+					break;
 				}
 
-			} else {
+			}
+			contador++;
+			if (contador == todosViajes.size()) {
+
 				System.out.println("Ese viaje no existe");
 			}
 
@@ -163,21 +170,26 @@ public class Menu {
 	}
 
 	public void cancelarViaje(String idViaje, ArrayList<Viajes> todosViajes) {
+		int contador = 0;
 		for (Viajes v : todosViajes) {
 			if (idViaje.equals(v.getId())) {
 
 				v.setPlazasDisponibles(v.getPlazasDisponibles() + 1);// disminuimos las plazas disponibles
 				String asunto = "CANCELACION";
 				String cuerpo = "Estimado...";
+				System.out.println("Has cancelado el viaje: " + v.toString());
 				mandarEmail(usuario, asunto, cuerpo);
 				usA.anadirViajeaExcel(todosViajes);
 				break;
 
-			} else {
+			}
+			contador++;
+			if (contador == todosViajes.size()) {
+
 				System.out.println("Ese viaje no existe");
 			}
-
 		}
+
 	}
 
 	public void mandarEmail(Users user, String asunto, String cuerpo) {
