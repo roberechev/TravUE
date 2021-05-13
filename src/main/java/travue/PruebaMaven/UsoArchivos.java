@@ -1,5 +1,7 @@
 package travue.PruebaMaven;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,6 +29,7 @@ public class UsoArchivos {
 	private String rutaViajes = "..\\PruebaMaven\\src\\main\\java\\archivos\\Viajes.csv";
 	private String rutaUsuarios = "..\\PruebaMaven\\src\\main\\java\\archivos\\Usuarios.csv";
 	private String rutaComentarios = "..\\PruebaMaven\\src\\main\\java\\archivos\\Comentarios.csv";
+	private String rutaFicheroIdViajes = "..\\PruebaMaven\\src\\main\\java\\archivos\\IdViajes.csv";
 	private String separadorParaLeer = "·";
 
 	/*
@@ -157,6 +160,83 @@ public class UsoArchivos {
 			System.out.println("ERROR EN EXCEL");
 			e.printStackTrace();
 		}
+	}
+
+	/*
+	 * Este metodo nos sirve para que no se repitan los ID de los viajes, solo se
+	 * llamara cuando se cree un viaje nuevo. Lo que hace es leer de un excel el
+	 * numero de viajes que se han ido guardando nos devuelve ese numero para poder
+	 * usarlo como id y seguidamente lo incrementa en 1 y lo vuelve a guardar en el
+	 * csv para que cuando creemos un nuevo viaje no pueda tener el mismo ID
+	 */
+	public int ficheroIdViajes() {
+		ArrayList dato = new ArrayList();
+		int datoId = 0;
+		int datoIdIncrementado = 0;
+		// Leer CSV
+		try (FileInputStream file = new FileInputStream(new File(rutaFicheroIdViajes))) {
+
+			XSSFWorkbook libroParaLeer = new XSSFWorkbook(file);// Lee archivo
+			XSSFSheet sheet = libroParaLeer.getSheetAt(0);// Obtener la hoja a leer
+			Iterator<Row> rowIterator = sheet.iterator();// Obtener todas las filas de la hoja
+
+			while (rowIterator.hasNext()) {// Recorre cada fila una a una
+				Iterator<Cell> cellIterator = rowIterator.next().cellIterator();// Se obtienen las celdas por fila
+
+				while (cellIterator.hasNext()) {// Se recorre cada celda
+					// Se obtiene la celda en especifico con cellIterator.next.get...
+
+					String todasLasCeldas = String.valueOf(cellIterator.next().toString());// coje lo que haya en la
+																							// celda del excel como
+																							// string
+					double celdasNumericas;
+					try {
+						celdasNumericas = Double.parseDouble(todasLasCeldas);// convertimos el string a double ya que
+																				// tiene decimales
+						int celdasNumericasCasteadas = (int) celdasNumericas;// el double lo casteamos a int para quitar
+																				// decimales
+						todasLasCeldas = String.valueOf(celdasNumericasCasteadas);// volvemos a pasarlo a string
+					} catch (Exception e) {
+
+					}
+
+					dato.add(todasLasCeldas);// añadimos al array la celda del excel
+				}
+
+			}
+
+			datoId = Integer.parseInt(String.valueOf(dato.get(0)));// Convertimos el dato a String y lo casteamos a
+																	// int
+			// System.out.println(datoId);
+			datoIdIncrementado = datoId + 1; // Incrementamos el dato Leido y este es el que vamos a guardar denuevo
+												// en el csv
+			// System.out.println(datoIdIncrementado);
+		} catch (Exception e) {
+			e.getMessage();
+		}
+
+		// Escribimos en el CSV
+		XSSFWorkbook libroParaEscribir = new XSSFWorkbook();
+		XSSFSheet hoja1 = libroParaEscribir.createSheet("hoja1");
+
+		String[][] cuerpo = new String[][] { { String.valueOf(datoIdIncrementado) } };
+		XSSFRow row = hoja1.createRow(0); // Se crea la fila
+
+		XSSFCell cell = row.createCell(0); // Se crean las celdas para el contenido
+		cell.setCellValue(cuerpo[0][0]); // Se añade el contenido, se pone 0 ya que nosotros vamos
+											// solo utilizaremos la fila 0 y columna 0
+
+		// Crear el archivo
+		try (OutputStream fileOut = new FileOutputStream(rutaFicheroIdViajes)) {
+			libroParaEscribir.write(fileOut);
+		} catch (IOException e) {
+			System.out.println("ERROR EN EXCEL");
+			e.printStackTrace();
+		}
+		///////
+
+		return datoId;
+
 	}
 
 	/*
