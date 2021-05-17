@@ -14,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 public class Menu {
 	UsoArchivos usA = new UsoArchivos();
 	Users usuario = new Users();
-	ArrayList<Viajes> todosViajes = usA.listarViajes();
+	ArrayList<Viajes> todosViajes; //= usA.listarViajes();
 	Scanner sc = new Scanner(System.in);
 	int opcionesBucle = 1;// variable para el bucle si se pone a 0 se acaba el bucle
 
@@ -173,7 +173,7 @@ public class Menu {
 		int contador = 0;
 		for (Viajes v : todosViajes) {
 			if (idViaje.equals(v.getId())) {
-
+				if (v.getPlazasDisponibles() != v.getPlazasTotales()) {
 				v.setPlazasDisponibles(v.getPlazasDisponibles() + 1);// disminuimos las plazas disponibles
 				String asunto = "CANCELACION";
 				String cuerpo = "Estimado...";
@@ -181,7 +181,10 @@ public class Menu {
 				mandarEmail(usuario, asunto, cuerpo);
 				usA.anadirViajeaExcel(todosViajes);
 				break;
-
+			} else {
+				System.out.println("No estas inscrito en ese viaje");
+				break;
+			}
 			}
 			contador++;
 			if (contador == todosViajes.size()) {

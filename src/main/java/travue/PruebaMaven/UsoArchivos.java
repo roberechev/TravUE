@@ -85,7 +85,7 @@ public class UsoArchivos {
 			for (int i = 0; i < viajes.size(); i++) {
 				convertidorArrayListViajes += separadorParaLeer + viajes.get(i); // Guardamos los objetos con un
 																					// separador
-				if ((i + 1) % 7 == 0 && i != 0 && i != 6 && i != 7) { // Dividimos entre 7 ya que son los atributos de
+				if ((i + 1) % 8 == 0 && i != 0 && i != 7 && i != 8) { // Dividimos entre 7 ya que son los atributos de
 																		// nuestros viajes, pero hay que eliminar los 7
 																		// primeros ya que son la cabecera y no nos
 																		// aportan nada
@@ -104,12 +104,15 @@ public class UsoArchivos {
 					String profesor = dat[6];
 					double plazasDisponiblesDouble = Double.parseDouble(dat[7]);
 					int plazasDisponibles = (int) plazasDisponiblesDouble;
+					double plazasTotalesDouble = Double.parseDouble(dat[8]);
+					int plazasTotales = (int) plazasTotalesDouble;
 					// con esto vamos a meter en nuestro arrayList de viajes uno a uno todos los
 					// viajes
-					datosViajes.add(new Viajes(id, nombre, fechaInicio, fechaFin, precio, profesor, plazasDisponibles));
+					datosViajes.add(new Viajes(id, nombre, fechaInicio, fechaFin, precio, profesor, plazasDisponibles,
+							plazasTotales));
 
 					convertidorArrayListViajes = "";
-				} else if (i == 6) {
+				} else if (i == 7) {
 					convertidorArrayListViajes = "";
 				}
 
@@ -132,8 +135,8 @@ public class UsoArchivos {
 
 		for (int k = 0; k <= viaje.size(); k++) {
 			// cabeceras solo se añaden la primera iteracion
-			String[][] cuerpo = new String[][] {
-					{ "ID", "NOMBRE", "FECHA INICIO", "FECHA FIN", "PRECIO", "PROFESOR", "PLAZAS DISPONIBLES" } };
+			String[][] cuerpo = new String[][] { { "ID", "NOMBRE", "FECHA INICIO", "FECHA FIN", "PRECIO", "PROFESOR",
+					"PLAZAS DISPONIBLES", "PLAZAS TOTALES" } };
 
 			int kmenos1 = k - 1; // esta variable nos sirve ya que la primera vez metemos la cabecera y entonces
 									// tenemos que ir viendo todos los viajes por eso hay q restarle 1
@@ -141,10 +144,11 @@ public class UsoArchivos {
 				cuerpo = new String[][] { { viaje.get(kmenos1).getId(), viaje.get(kmenos1).getNombre(),
 						viaje.get(kmenos1).getFechaInicio(), viaje.get(kmenos1).getFechaFin(),
 						String.valueOf(viaje.get(kmenos1).getPrecio()), viaje.get(kmenos1).getProfesor(),
-						String.valueOf(viaje.get(kmenos1).getPlazasDisponibles()) } };
+						String.valueOf(viaje.get(kmenos1).getPlazasDisponibles()),
+						String.valueOf(viaje.get(kmenos1).getPlazasTotales()) } };
 			}
 			XSSFRow row = hoja1.createRow(k); // Se crea la fila
-			for (int j = 0; j < 7; j++) {
+			for (int j = 0; j < 8; j++) {
 				XSSFCell cell = row.createCell(j); // Se crean las celdas para el contenido
 				cell.setCellValue(cuerpo[0][j]); // Se añade el contenido, se pone 0 ya que nosotros vamos eliminando y
 													// creando la variable cuerpo por lo que solo esta en la posicion 0
@@ -245,12 +249,13 @@ public class UsoArchivos {
 	public void pintarViajes(ArrayList<Viajes> viajes) {
 		String separador = " | ";
 		System.out.println("ID" + separador + "NOMBRE" + separador + "FECHA INICIO" + separador + "FECHA FIN"
-				+ separador + "PRECIO" + separador + "PROFESOR" + separador + "PLAZAS DISPONIBLES");
+				+ separador + "PRECIO" + separador + "PROFESOR" + separador + "PLAZAS DISPONIBLES" + separador
+				+ "PLAZAS TOTALES");
 		// System.out.println("");
 		for (Viajes v : viajes) {
 			System.out.println(v.getId() + separador + v.getNombre() + separador + v.getFechaInicio() + separador
 					+ v.getFechaFin() + separador + v.getPrecio() + separador + v.getProfesor() + separador
-					+ v.getPlazasDisponibles());
+					+ v.getPlazasDisponibles() + separador + v.getPlazasTotales());
 		}
 	}
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Login {
-/*
+
 	public static void main(String[] args) {
 		UsoArchivos usA = new UsoArchivos();
 		Users usuario;
@@ -81,5 +81,5 @@ public class Login {
 		}
 		return admin;
 	}
-*/
+
 }

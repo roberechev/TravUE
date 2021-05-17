@@ -9,9 +9,10 @@ public class Viajes {
 	int precio;
 	String profesor;
 	int plazasDisponibles;
+	int plazasTotales;
 
 	public Viajes(String id, String nombre, String fechaInicio, String fechaFin, int precio, String profesor,
-			int plazasDisponibles) {
+			int plazasDisponibles, int plazasTotales) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -20,6 +21,7 @@ public class Viajes {
 		this.precio = precio;
 		this.profesor = profesor;
 		this.plazasDisponibles = plazasDisponibles;
+		this.plazasTotales = plazasTotales;
 	}
 
 	public String getId() {
@@ -78,6 +80,14 @@ public class Viajes {
 		this.plazasDisponibles = plazasDisponibles;
 	}
 
+	public int getPlazasTotales() {
+		return plazasTotales;
+	}
+
+	public void setPlazasTotales(int plazasTotales) {
+		this.plazasTotales = plazasTotales;
+	}
+
 	public String[] getArray() {
 		String[] datos = { nombre, fechaInicio, fechaFin, String.valueOf(precio), profesor,
 				String.valueOf(plazasDisponibles) };
@@ -88,7 +98,8 @@ public class Viajes {
 	@Override
 	public String toString() {
 		return "Viajes [id=" + id + ", nombre=" + nombre + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin
-				+ ", precio=" + precio + ", profesor=" + profesor + ", plazasDisponibles=" + plazasDisponibles + "]";
+				+ ", precio=" + precio + ", profesor=" + profesor + ", plazasDisponibles=" + plazasDisponibles
+				+ ", plazasTotales=" + plazasTotales + "]";
 	}
 
 }
