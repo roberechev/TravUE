@@ -14,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 public class Menu {
 	UsoArchivos usA = new UsoArchivos();
 	Users usuario = new Users();
-	ArrayList<Viajes> todosViajes; //= usA.listarViajes();
+	ArrayList<Viajes> todosViajes; // = usA.listarViajes();
 	Scanner sc = new Scanner(System.in);
 	int opcionesBucle = 1;// variable para el bucle si se pone a 0 se acaba el bucle
 
@@ -23,13 +23,35 @@ public class Menu {
 		System.out.println("Admin");
 		while (opcionesBucle != 0) {
 			System.out.println(
-					"1 - Ver viajes\n2 - Ver/Escribir Comentarios\n3 - Perfil\n4 - Inscribirte\n5 - Cancelar Viaje\n6 - Cerrar Sesion");
+					"1 - Ver viajes\n2 - Añadir Viaje\n3 - Eliminar Viaje\n4 - Modificar Viaje\n5 - Perfil\n6 - Ver/Escribir Comentarios de la aplicacion\n7 - Ver dinero recaudado\n8 - Inscribirte\n9 - Cancelar Viaje\n10 - Cerrar Sesion");
 			String opcion = sc.nextLine();
 			switch (opcion) {
 			case "1":
-
+				todosViajes = usA.listarViajes();
+				usA.pintarViajes(todosViajes);
 				break;
 			case "2":
+
+				todosViajes = usA.listarViajes();
+				String id = String.valueOf(usA.ficheroIdViajes());
+				System.out.println("Introduce el Nombre del Viaje");
+				String nombre = sc.nextLine();
+				System.out.println("Introduce la fecha de inicio del viaje");
+				String fechaInicio = sc.nextLine();
+				System.out.println("Introduce la fecha de fin del viaje");
+				String fechaFin = sc.nextLine();
+				System.out.println("Introduce el precio del viaje");
+				int precio = Integer.parseInt(sc.nextLine());
+				System.out.println("Introduce el nombre del Profesor asignado a este viaje");
+				String profesor = sc.nextLine();
+				System.out.println("Introduce las plazas totales de este viaje");
+				int plazasTotales = Integer.parseInt(sc.nextLine());
+				int plazasDisponibles = plazasTotales;
+				todosViajes.add(new Viajes(id, nombre, fechaInicio, fechaFin, precio, profesor, plazasDisponibles,
+						plazasTotales));
+
+				usA.anadirViajeaExcel(todosViajes);
+				System.out.println("Viaje añadido");
 
 				break;
 			case "3":
@@ -39,9 +61,72 @@ public class Menu {
 
 				break;
 			case "5":
+				String adm = "No";
+				String separar = " | ";
+				if (usuario.getAdmin() == 1) {
+					adm = "Si";
+				}
+				System.out.println("USUARIO | PASSWORD | NOMBRE COMPLETO | ADMIN | ESTUDIOS | EMAIL");
+				System.out.println(
+						usuario.getUser() + separar + usuario.getPassword() + separar + usuario.getNombreCompleto()
+								+ separar + adm + separar + usuario.getEstudios() + separar + usuario.getEmail());
+				System.out.println("¿Quieres modificar tu email?\n1 - Si\n2 - No");
+				String opcionModificacion = sc.nextLine();
+				if (opcionModificacion.equals("1")) {
+					System.out.println("Escribe el gmail que quieres utilizar: ");
+					String nuevoEmail = sc.nextLine();
+					usuario.setEmail(nuevoEmail);// aqui modifico el gmail en la variable temporal
+
+					ArrayList<Users> todosUsuarios = usA.listarUsuarios();
+					/*
+					 * con este foreach cambio el gmail dentro de la lista de usuarios y lo añado al
+					 * excel para modificarlo definitivamente
+					 */
+					for (Users u : todosUsuarios) {
+						if (usuario.getUser().equals(u.getUser()) && usuario.getPassword().equals(u.getPassword())) {
+							u.setEmail(nuevoEmail);
+						}
+					}
+
+					usA.crearCuenta(todosUsuarios);
+
+				}
 
 				break;
 			case "6":
+				System.out.println("1 - Ver comentarios\n2 - Escribir Comentarios");
+				String verEscribir = sc.nextLine();
+				ArrayList<Comentarios> todosComentarios = usA.leerComentarios();
+				if (verEscribir.equals("1")) {
+					usA.pintarComentarios(todosComentarios);
+				} else if (verEscribir.equals("2")) {
+					System.out.println("Escribe tu comentario: ");
+					String nuevoComentario = sc.nextLine();
+					usA.escribirComentario(todosComentarios, usuario.getUser(), nuevoComentario);
+					todosComentarios = usA.leerComentarios();
+					usA.pintarComentarios(todosComentarios);
+				} else {
+					System.out.println("Solo puedes ver o escribir comentarios");
+				}
+				break;
+			case "7":
+
+				break;
+			case "8":
+				ArrayList<Viajes> vi = usA.listarViajes();
+				usA.pintarViajes(vi);
+				System.out.println("Introduce el ID del viaje al que quieres inscribirte: ");
+				String idViaje = sc.nextLine();
+				inscribirseViaje(idViaje, vi);
+				break;
+			case "9":
+				ArrayList<Viajes> viaj = usA.listarViajes();
+				usA.pintarViajes(viaj);
+				System.out.println("Introduce el ID del viaje para cancelar tu inscripcion: ");
+				String idViaj = sc.nextLine();
+				cancelarViaje(idViaj, viaj);
+				break;
+			case "10":
 				System.out.println("Sesion cerrada");
 				opcionesBucle = 0;
 				break;
@@ -59,7 +144,7 @@ public class Menu {
 
 		while (opcionesBucle != 0) {
 			System.out.println(
-					"1 - Ver viajes\n2 - Ver/Escribir Comentarios\n3 - Perfil\n4 - Inscribirte\n5 - Cancelar Viaje\n6 - Cerrar Sesion");
+					"1 - Ver viajes\n2 - Ver/Escribir Comentarios de la aplicacion\n3 - Perfil\n4 - Inscribirte\n5 - Cancelar Viaje\n6 - Cerrar Sesion");
 			String opcion = sc.nextLine();
 			switch (opcion) {
 			case "1":
@@ -174,17 +259,17 @@ public class Menu {
 		for (Viajes v : todosViajes) {
 			if (idViaje.equals(v.getId())) {
 				if (v.getPlazasDisponibles() != v.getPlazasTotales()) {
-				v.setPlazasDisponibles(v.getPlazasDisponibles() + 1);// disminuimos las plazas disponibles
-				String asunto = "CANCELACION";
-				String cuerpo = "Estimado...";
-				System.out.println("Has cancelado el viaje: " + v.toString());
-				mandarEmail(usuario, asunto, cuerpo);
-				usA.anadirViajeaExcel(todosViajes);
-				break;
-			} else {
-				System.out.println("No estas inscrito en ese viaje");
-				break;
-			}
+					v.setPlazasDisponibles(v.getPlazasDisponibles() + 1);// disminuimos las plazas disponibles
+					String asunto = "CANCELACION";
+					String cuerpo = "Estimado...";
+					System.out.println("Has cancelado el viaje: " + v.toString());
+					mandarEmail(usuario, asunto, cuerpo);
+					usA.anadirViajeaExcel(todosViajes);
+					break;
+				} else {
+					System.out.println("No estas inscrito en ese viaje");
+					break;
+				}
 			}
 			contador++;
 			if (contador == todosViajes.size()) {
