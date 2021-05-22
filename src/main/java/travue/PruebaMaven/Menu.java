@@ -18,6 +18,12 @@ public class Menu {
 	Scanner sc = new Scanner(System.in);
 	int opcionesBucle = 1;// variable para el bucle si se pone a 0 se acaba el bucle
 
+	/*
+	 * Este es el menu del admin, el cual solo les aparecera a las personas
+	 * logueadas que tengan en su atributo de admin un 1, este rol tiene mas
+	 * opciones que el usuario ya que puede crear viajes, eliminar viajes..., entre
+	 * otras cosas.
+	 */
 	public void menuAdmin(Users user) {
 		usuario = user;
 		System.out.println("Admin");
@@ -55,9 +61,26 @@ public class Menu {
 
 				break;
 			case "3":
+				todosViajes = usA.listarViajes();
+				usA.pintarViajes(todosViajes);
+				System.out.println("Introduce el ID del viaje a eliminar: ");
+				String idEliminar = sc.nextLine();
+				System.out.println(
+						"Seguro que quieres eliminar este viaje no habrá vuelta atras\n1 - Eliminar\n2 - No eliminar");
+				String decision = sc.nextLine();
+				if (decision.equals("1")) {
+					eliminarViaje(idEliminar, todosViajes);
+				} else {
+					System.out.println("Viaje no eliminado");
+				}
 
 				break;
 			case "4":
+				todosViajes = usA.listarViajes();
+				usA.pintarViajes(todosViajes);
+				System.out.println("Introduce el ID del viaje a modificar: ");
+				String idModificar = sc.nextLine();
+				modificarViaje(idModificar, todosViajes);
 
 				break;
 			case "5":
@@ -138,6 +161,10 @@ public class Menu {
 
 	}
 
+	/*
+	 * Este es el menu del usuario el cual aparecera a las personas logueadas que
+	 * solo sean usuarios, es decir que en el atributo de admin tengan un 0
+	 */
 	public void menuUser(Users user) {
 		usuario = user;
 		System.out.println("User");
@@ -226,6 +253,128 @@ public class Menu {
 
 	}
 
+	/*
+	 * Este metodo recibe el id a modificar y un arraylist de objetos Viajes, si el
+	 * id coincide con alguno de los de los viajes nos pedira que queremos cambiar
+	 * del viaje y segun la opcion que le marcaremos hara unos cambios u otros
+	 */
+	public void modificarViaje(String idModificar, ArrayList<Viajes> todosViajes) {
+		for (Viajes v : todosViajes) {
+			if (idModificar.equals(v.getId())) {
+				System.out.println(
+						"¿Que quieres modificar?\n1 - El viaje completo\n2 - El nombre\n3 - La fecha de Inicio\n4 - La fecha de Fin\n5 - El precio\n6 - El profesor\n7 - Las Plazas Totales\n8 - Nada");
+
+				String opcionModificar = sc.nextLine();
+				switch (opcionModificar) {
+				case "1":
+					// Modificamos el viaje completo
+					System.out.println("Nuevo nombre del Viaje:");
+					String nombre = sc.nextLine();
+					v.setNombre(nombre);
+					System.out.println("Nueva fecha de inicio del viaje:");
+					String fechaInicio = sc.nextLine();
+					v.setFechaInicio(fechaInicio);
+					System.out.println("Nueva fecha de fin del viaje:");
+					String fechaFin = sc.nextLine();
+					v.setFechaFin(fechaFin);
+					System.out.println("Nuevo precio del viaje:");
+					int precio = Integer.parseInt(sc.nextLine());
+					v.setPrecio(precio);
+					System.out.println("Nuevo nombre del Profesor asignado a este viaje:");
+					String profesor = sc.nextLine();
+					v.setProfesor(profesor);
+					System.out.println("Nuevas plazas totales de este viaje:");
+					int plazasTotales = Integer.parseInt(sc.nextLine());
+					v.setPlazasTotales(plazasTotales);
+					int plazasOcupadas = v.getPlazasTotales() - v.getPlazasDisponibles();
+					v.setPlazasDisponibles(plazasTotales - plazasOcupadas);
+					System.out.println("Se ha modificado el viaje: " + v.toString());
+					break;
+				case "2":
+					// Modificamos el nombre
+					System.out.println("Nuevo nombre del Viaje:");
+					String nuevoNombre = sc.nextLine();
+					v.setNombre(nuevoNombre);
+					System.out.println("Nombre modificado: " + v.toString());
+					break;
+				case "3":
+					// Modificamos la fecha de inicio
+					System.out.println("Nueva fecha de inicio del viaje:");
+					String nuevaFechaInicio = sc.nextLine();
+					v.setFechaInicio(nuevaFechaInicio);
+					System.out.println("Fecha de Inicio modificada: " + v.toString());
+					break;
+				case "4":
+					// Modificamos la fecha de fin
+					System.out.println("Nueva fecha de fin del viaje:");
+					String nuevaFechaFin = sc.nextLine();
+					v.setFechaFin(nuevaFechaFin);
+					System.out.println("Fecha de Fin modificada: " + v.toString());
+					break;
+				case "5":
+					// Modificamos el precio
+					System.out.println("Nuevo precio del viaje:");
+					int nuevoPrecio = Integer.parseInt(sc.nextLine());
+					v.setPrecio(nuevoPrecio);
+					System.out.println("Precio modificado: " + v.toString());
+					break;
+				case "6":
+					// Modificamos el nombre del profesor
+					System.out.println("Nuevo nombre del Profesor asignado a este viaje:");
+					String nuevoProfesor = sc.nextLine();
+					v.setProfesor(nuevoProfesor);
+					System.out.println("Nombre del Profesor modificado: " + v.toString());
+					break;
+				case "7":
+					// Modificamos las plazas Totales y ademas las disponibles
+					System.out.println("Nuevas plazas totales de este viaje:");
+					int nuevasPlazasTotales = Integer.parseInt(sc.nextLine());
+					int nuevasPlazasOcupadas = v.getPlazasTotales() - v.getPlazasDisponibles();
+					v.setPlazasTotales(nuevasPlazasTotales);
+					v.setPlazasDisponibles(nuevasPlazasTotales - nuevasPlazasOcupadas);
+					System.out.println("Plazas totales y disponibles modificadas: " + v.toString());
+					break;
+
+				}
+			}
+
+		}
+		usA.anadirViajeaExcel(todosViajes);
+
+	}
+
+	/*
+	 * Este metodo recibe el id a eliminar y un arraylist de objetos Viajes, si el
+	 * id existe entre los viajes se eliminara todo el viaje y seguidamente se
+	 * reescribira el archivo csv
+	 */
+	public void eliminarViaje(String idEliminar, ArrayList<Viajes> todosViajes) {
+		boolean eliminado = false;
+		int index = 2000;
+
+		for (Viajes v : todosViajes) {
+			if (idEliminar.equals(v.getId())) {
+				index = todosViajes.indexOf(v);
+				eliminado = true;
+			}
+
+		}
+		if (eliminado) {
+			todosViajes.remove(index);
+			System.out.println("El viaje a sido eliminado");
+			eliminado = false;
+			usA.anadirViajeaExcel(todosViajes);
+		} else {
+			System.out.println("El id introducido no pertenece a ningun viaje.");
+		}
+	}
+
+	/*
+	 * Este metodo sirve para inscribirse en un viaje, lo que hace es si el viaje
+	 * existe le resta uno a las plazas disponibles y nos envia un correo
+	 * electronico, gmail, al correo que tengamos puesto en nuestro usuario de la
+	 * aplicacion TravUe
+	 */
 	public void inscribirseViaje(String idViaje, ArrayList<Viajes> todosViajes) {
 		int contador = 0;
 		for (Viajes v : todosViajes) {
@@ -254,6 +403,12 @@ public class Menu {
 		}
 	}
 
+	/*
+	 * Este metodo sirve para cancelar un viaje, lo que hace es si el viaje existe
+	 * le suma uno a las plazas disponibles y nos envia un correo electronico,
+	 * gmail, al correo que tengamos puesto en nuestro usuario de la aplicacion
+	 * TravUe
+	 */
 	public void cancelarViaje(String idViaje, ArrayList<Viajes> todosViajes) {
 		int contador = 0;
 		for (Viajes v : todosViajes) {
@@ -280,6 +435,11 @@ public class Menu {
 
 	}
 
+	/*
+	 * Este metodo se encarga de mandar un email desde nuestra cuenta ya creada
+	 * proyingenieriagrupo@gmail.com al gmail que esta en el usuario con el que
+	 * estamos logueados al inscribirnos o cancelar un viaje
+	 */
 	public void mandarEmail(Users user, String asunto, String cuerpo) {
 
 		// Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el
