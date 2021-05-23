@@ -133,7 +133,11 @@ public class Menu {
 				}
 				break;
 			case "7":
-
+				todosViajes = usA.listarViajes();
+				usA.pintarViajes(todosViajes);
+				System.out.println("¿De qué viaje quieres ver el dinero recaudado?\nIntruduce su id: ");
+				String idDelDinero = sc.nextLine();
+				verDineroRecaudado(idDelDinero, todosViajes);
 				break;
 			case "8":
 				ArrayList<Viajes> vi = usA.listarViajes();
@@ -153,7 +157,6 @@ public class Menu {
 				System.out.println("Sesion cerrada");
 				opcionesBucle = 0;
 				break;
-
 			default:
 				break;
 			}
@@ -251,6 +254,22 @@ public class Menu {
 			}
 		}
 
+	}
+
+	/*
+	 * Este metodo busca el viaje en el que quieres ver el diner recaudado y resta
+	 * las plazas disponibles a las totales para saber cuantas personas se han
+	 * inscrito en el viaje y esa cantidad de personas se multiplica por el precio
+	 * del viaje para saber el dinero recaudado total de ese viaje
+	 */
+	public void verDineroRecaudado(String idDelDinero, ArrayList<Viajes> todosViajes) {
+		for (Viajes v : todosViajes) {
+			if (idDelDinero.equals(v.getId())) {
+				int plazasSolicitadas = v.getPlazasTotales() - v.getPlazasDisponibles();
+				int dineroRecaudado = plazasSolicitadas * v.getPrecio();
+				System.out.println("El dinero recaudado en este viaje es de: " + dineroRecaudado + "€");
+			}
+		}
 	}
 
 	/*
@@ -382,8 +401,13 @@ public class Menu {
 			if (idViaje.equals(v.getId())) {
 				if (v.getPlazasDisponibles() != 0) {
 					v.setPlazasDisponibles(v.getPlazasDisponibles() - 1);// disminuimos las plazas disponibles
-					String asunto = "INCRIPCION";
-					String cuerpo = "Estimado...";
+					String asunto = "INCRIPCIÓN";
+					String cuerpo = "Estimad@ " + usuario.getNombreCompleto() + ",\nSu reserva, con usuario: "
+							+ usuario.getUser()
+							+ ", ha sido completada con éxito.\nDatos de la reserva:\n-Id del viaje: " + v.getId()
+							+ "\n-Nombre: " + usuario.getNombreCompleto() + "\n-Destino: " + v.getNombre()
+							+ "\n-Fecha: " + v.getFechaInicio() + "-" + v.getFechaFin() + "\n-Precio: " + v.getPrecio()
+							+ "€\nEsperamos que tenga un buen viaje, cualquier inquietud puede comentarnosla tanto por los comentarios de la aplicacion como por nuestro correo: proyingenieriagrupo@gmail.com.\nMuchas gracias por utilizar TravUE.";
 					System.out.println("Te has apuntado al viaje: " + v.toString());
 					mandarEmail(usuario, asunto, cuerpo);
 					usA.anadirViajeaExcel(todosViajes);
@@ -415,8 +439,13 @@ public class Menu {
 			if (idViaje.equals(v.getId())) {
 				if (v.getPlazasDisponibles() != v.getPlazasTotales()) {
 					v.setPlazasDisponibles(v.getPlazasDisponibles() + 1);// disminuimos las plazas disponibles
-					String asunto = "CANCELACION";
-					String cuerpo = "Estimado...";
+					String asunto = "CANCELACIÓN";
+					String cuerpo = "Estimad@ " + usuario.getNombreCompleto() + ",\nSu reserva, con usuario: "
+							+ usuario.getUser()
+							+ ", ha sido cancelada con éxito.\nDatos de la reserva:\n-Id del viaje: " + v.getId()
+							+ "\n-Nombre: " + usuario.getNombreCompleto() + "\n-Destino: " + v.getNombre()
+							+ "\n-Fecha: " + v.getFechaInicio() + "-" + v.getFechaFin() + "\n-Precio: " + v.getPrecio()
+							+ "€\nMuchas gracias por utilizar TravUE, si tiene algun problema puede dejar en la aplicacion sus comentarios, o escribirnos a nuestro correo: proyingenieriagrupo@gmail.com.";
 					System.out.println("Has cancelado el viaje: " + v.toString());
 					mandarEmail(usuario, asunto, cuerpo);
 					usA.anadirViajeaExcel(todosViajes);
