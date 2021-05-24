@@ -26,7 +26,6 @@ public class Menu {
 	 */
 	public void menuAdmin(Users user) {
 		usuario = user;
-		System.out.println("Admin");
 		while (opcionesBucle != 0) {
 			System.out.println(
 					"1 - Ver viajes\n2 - Añadir Viaje\n3 - Eliminar Viaje\n4 - Modificar Viaje\n5 - Perfil\n6 - Ver/Escribir Comentarios de la aplicacion\n7 - Ver dinero recaudado\n8 - Inscribirte\n9 - Cancelar Viaje\n10 - Cerrar Sesion");
@@ -170,7 +169,6 @@ public class Menu {
 	 */
 	public void menuUser(Users user) {
 		usuario = user;
-		System.out.println("User");
 
 		while (opcionesBucle != 0) {
 			System.out.println(

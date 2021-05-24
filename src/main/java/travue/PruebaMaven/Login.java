@@ -19,7 +19,7 @@ public class Login {
 
 		String ANSI_RESET = "\u001B[0m";// para cerrar la etiqueta de color y que no se pinte toda la consola
 		System.out.println(ANSI_BLUE_Claro
-				+ "-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-TravUE-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-"
+				+ "-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-\n-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-TravUE-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-\n-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-"
 				+ ANSI_RESET);
 		while (opcionLogin != 0) {
 			System.out.println("1 - Iniciar Sesion\n2 - Crear Cuenta\n3 - Salir");
@@ -48,7 +48,23 @@ public class Login {
 				break;
 			case "2": // CREAR CUENTA
 				System.out.println("User");
-				String user = sc.nextLine();
+				String user = "";
+				boolean usuarioExistente = true;// si existe el usuario en el csv seguira preguntando por otro user
+				while (usuarioExistente) {
+					boolean usuarioNoExistente = true;// comprueba si entra en el if de la igualacion
+					user = sc.nextLine();
+					ArrayList<Users> todosUsers = usA.listarUsuarios();
+					for (Users u : todosUsers) {
+						if (user.equals(u.getUser())) {
+							System.out.println("Ese usuario no esta disponible introduce otro: ");
+							usuarioNoExistente = false;
+						}
+					}
+					if (usuarioNoExistente) {
+						usuarioExistente = false;
+					}
+				}
+
 				System.out.println("password");
 				String password = sc.nextLine();
 				System.out.println("Nombre Completo");
@@ -78,7 +94,7 @@ public class Login {
 		Scanner scanner = new Scanner(System.in);
 		String passAdmin = "ContrasenaAdmin123";
 		if (adm.equals("1")) {
-			System.out.println("Introduce la password de Admin proporcionada por un programador");
+			System.out.println("Introduce la password de Admin proporcionada por otro admin");
 			String comprobacion = scanner.nextLine();
 			if (comprobacion.equals(passAdmin)) {
 				admin = 1;
