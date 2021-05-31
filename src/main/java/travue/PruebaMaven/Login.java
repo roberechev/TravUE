@@ -14,13 +14,13 @@ public class Login {
 		ArrayList<Users> todosUsuarios;
 		todosUsuarios = usA.listarUsuarios();
 		// Colores para el texto en la consola
-		String ANSI_BLUE = "\u001B[34m";// azul oscuro
-		String ANSI_BLUE_Claro = "\033[36m";// azul claro
+		// String ANSI_BLUE = "\u001B[34m";// azul oscuro
+		// String ANSI_BLUE_Claro = "\033[36m";// azul claro
 
-		String ANSI_RESET = "\u001B[0m";// para cerrar la etiqueta de color y que no se pinte toda la consola
-		System.out.println(ANSI_BLUE_Claro
-				+ "-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-\n-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-TravUE-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-\n-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-"
-				+ ANSI_RESET);
+		// String ANSI_RESET = "\u001B[0m";// para cerrar la etiqueta de color y que no
+		// se pinte toda la consola
+		System.out.println(
+				"-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-\n-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-TravUE-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-\n-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-⎽__⎽--⎻⎺⎺⎻-");
 		while (opcionLogin != 0) {
 			System.out.println("1 - Iniciar Sesion\n2 - Crear Cuenta\n3 - Salir");
 			seleccionLogin = sc.nextLine();
@@ -36,10 +36,10 @@ public class Login {
 				if (verificaUser != null) {
 					Menu menu = new Menu();
 					if (verificaUser.getAdmin() == 1) {
-						System.out.println("Hola admin " + verificaUser.getUser());
+						System.out.println("Bienvenid@ " + verificaUser.getUser());
 						menu.menuAdmin(verificaUser);
 					} else {
-						System.out.println("Hola user " + verificaUser.getUser());
+						System.out.println("Bienvenid@ " + verificaUser.getUser());
 						menu.menuUser(verificaUser);
 					}
 				} else {
@@ -47,7 +47,7 @@ public class Login {
 				}
 				break;
 			case "2": // CREAR CUENTA
-				System.out.println("User");
+				System.out.println("Usuario: ");
 				String user = "";
 				boolean usuarioExistente = true;// si existe el usuario en el csv seguira preguntando por otro user
 				while (usuarioExistente) {
@@ -56,7 +56,7 @@ public class Login {
 					ArrayList<Users> todosUsers = usA.listarUsuarios();
 					for (Users u : todosUsers) {
 						if (user.equals(u.getUser())) {
-							System.out.println("Ese usuario no esta disponible introduce otro: ");
+							System.out.println("Este usuario no esta disponible. Introduce otro: ");
 							usuarioNoExistente = false;
 						}
 					}
@@ -65,25 +65,25 @@ public class Login {
 					}
 				}
 
-				System.out.println("password");
+				System.out.println("Contraseña: ");
 				String password = sc.nextLine();
-				System.out.println("Nombre Completo");
+				System.out.println("Nombre Completo: ");
 				String nombreCompleto = sc.nextLine();
 				System.out.println("¿Eres admin?\n1 - Si\n2 - No");
 				String adm = sc.nextLine();
 				int admin = 0;
 				admin = comprobarAdmin(adm, admin);// Comprobamos que es admin realmente
 
-				System.out.println("¿Que estudias?");
+				System.out.println("Introduce la carrera que impartes o estudias: ");
 				String estudios = sc.nextLine();
-				System.out.println("email");
+				System.out.println("Introduce tu gmail: ");
 				String email = sc.nextLine();
 				usuario = new Users(user, password, nombreCompleto, admin, estudios, email);
 				todosUsuarios.add(usuario);
 				usA.crearCuenta(todosUsuarios);
 				break;
 			case "3":
-				System.out.println("Hasta la proxima");
+				System.out.println("Gracias por usar TravUE. Hasta la proxima.");
 				opcionLogin = 0;
 				break;
 			}
@@ -94,13 +94,15 @@ public class Login {
 		Scanner scanner = new Scanner(System.in);
 		String passAdmin = "ContrasenaAdmin123";
 		if (adm.equals("1")) {
-			System.out.println("Introduce la password de Admin proporcionada por otro admin");
+			System.out.println("Introduce la contraseña especifica para ser Admin");
 			String comprobacion = scanner.nextLine();
 			if (comprobacion.equals(passAdmin)) {
 				admin = 1;
 			}
+		} else if (adm.equals("2")) {
+
 		} else {
-			System.out.println("No eres ADMIN");
+			System.out.println("Lo siento, la contraseña no es correcta.");
 		}
 		return admin;
 	}

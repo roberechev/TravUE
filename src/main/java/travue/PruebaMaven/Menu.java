@@ -26,6 +26,7 @@ public class Menu {
 	 */
 	public void menuAdmin(Users user) {
 		usuario = user;
+		
 		while (opcionesBucle != 0) {
 			System.out.println(
 					"1 - Ver viajes\n2 - Añadir Viaje\n3 - Eliminar Viaje\n4 - Modificar Viaje\n5 - Perfil\n6 - Ver/Escribir Comentarios de la aplicacion\n7 - Ver dinero recaudado\n8 - Inscribirte\n9 - Cancelar Viaje\n10 - Cerrar Sesion");
@@ -56,7 +57,7 @@ public class Menu {
 						plazasTotales));
 
 				usA.anadirViajeaExcel(todosViajes);
-				System.out.println("Viaje añadido");
+				System.out.println("Su viaje ha sido añadido con éxito");
 
 				break;
 			case "3":
@@ -65,7 +66,7 @@ public class Menu {
 				System.out.println("Introduce el ID del viaje a eliminar: ");
 				String idEliminar = sc.nextLine();
 				System.out.println(
-						"Seguro que quieres eliminar este viaje no habrá vuelta atras\n1 - Eliminar\n2 - No eliminar");
+						"ADVERTENCIA: Al eliminar este viaje no habrá vuelta atrás. ¿Seguro que quieres eliminarlo?\n1 - Eliminar\n2 - No eliminar");
 				String decision = sc.nextLine();
 				if (decision.equals("1")) {
 					eliminarViaje(idEliminar, todosViajes);
@@ -92,7 +93,7 @@ public class Menu {
 				System.out.println(
 						usuario.getUser() + separar + usuario.getPassword() + separar + usuario.getNombreCompleto()
 								+ separar + adm + separar + usuario.getEstudios() + separar + usuario.getEmail());
-				System.out.println("¿Quieres modificar tu email?\n1 - Si\n2 - No");
+				System.out.println("¿Desea modificar su email?\n1 - Si\n2 - No");
 				String opcionModificacion = sc.nextLine();
 				if (opcionModificacion.equals("1")) {
 					System.out.println("Escribe el gmail que quieres utilizar: ");
@@ -122,7 +123,7 @@ public class Menu {
 				if (verEscribir.equals("1")) {
 					usA.pintarComentarios(todosComentarios);
 				} else if (verEscribir.equals("2")) {
-					System.out.println("Escribe tu comentario: ");
+					System.out.println("Escribe un comentario: ");
 					String nuevoComentario = sc.nextLine();
 					usA.escribirComentario(todosComentarios, usuario.getUser(), nuevoComentario);
 					todosComentarios = usA.leerComentarios();
@@ -134,26 +135,26 @@ public class Menu {
 			case "7":
 				todosViajes = usA.listarViajes();
 				usA.pintarViajes(todosViajes);
-				System.out.println("¿De qué viaje quieres ver el dinero recaudado?\nIntruduce su id: ");
+				System.out.println("¿De qué viaje quiere ver el dinero recaudado?\nIntruduce su id: ");
 				String idDelDinero = sc.nextLine();
 				verDineroRecaudado(idDelDinero, todosViajes);
 				break;
 			case "8":
 				ArrayList<Viajes> vi = usA.listarViajes();
 				usA.pintarViajes(vi);
-				System.out.println("Introduce el ID del viaje al que quieres inscribirte: ");
+				System.out.println("Introduce el ID del viaje al que quiere inscribirte: ");
 				String idViaje = sc.nextLine();
 				inscribirseViaje(idViaje, vi);
 				break;
 			case "9":
 				ArrayList<Viajes> viaj = usA.listarViajes();
 				usA.pintarViajes(viaj);
-				System.out.println("Introduce el ID del viaje para cancelar tu inscripcion: ");
+				System.out.println("Introduce el ID del viaje para cancelar su inscripcion: ");
 				String idViaj = sc.nextLine();
 				cancelarViaje(idViaj, viaj);
 				break;
 			case "10":
-				System.out.println("Sesion cerrada");
+				System.out.println("Su sesión ha finalizado. Gracias por usar esta plataforma");
 				opcionesBucle = 0;
 				break;
 			default:
@@ -192,7 +193,7 @@ public class Menu {
 					todosComentarios = usA.leerComentarios();
 					usA.pintarComentarios(todosComentarios);
 				} else {
-					System.out.println("Solo puedes ver o escribir comentarios");
+					System.out.println("Solo puede ver o escribir comentarios");
 				}
 				break;
 			case "3":
@@ -205,7 +206,7 @@ public class Menu {
 				System.out.println(
 						usuario.getUser() + separar + usuario.getPassword() + separar + usuario.getNombreCompleto()
 								+ separar + adm + separar + usuario.getEstudios() + separar + usuario.getEmail());
-				System.out.println("¿Quieres modificar tu email?\n1 - Si\n2 - No");
+				System.out.println("¿Quieres modificar su email?\n1 - Si\n2 - No");
 				String opcionModificacion = sc.nextLine();
 				if (opcionModificacion.equals("1")) {
 					System.out.println("Escribe el gmail que quieres utilizar: ");
@@ -231,19 +232,19 @@ public class Menu {
 			case "4":
 				ArrayList<Viajes> vi = usA.listarViajes();
 				usA.pintarViajes(vi);
-				System.out.println("Introduce el ID del viaje al que quieres inscribirte: ");
+				System.out.println("Introduce el ID del viaje al que quiere inscribirte: ");
 				String idViaje = sc.nextLine();
 				inscribirseViaje(idViaje, vi);
 				break;
 			case "5":
 				ArrayList<Viajes> viaj = usA.listarViajes();
 				usA.pintarViajes(viaj);
-				System.out.println("Introduce el ID del viaje para cancelar tu inscripcion: ");
+				System.out.println("Introduce el ID del viaje para cancelar su inscripcion: ");
 				String idViaj = sc.nextLine();
 				cancelarViaje(idViaj, viaj);
 				break;
 			case "6":
-				System.out.println("Sesion cerrada");
+				System.out.println("Su sesión ha finalizado. Gracias por usar esta plataforma");
 				opcionesBucle = 0;
 				break;
 
@@ -279,7 +280,7 @@ public class Menu {
 		for (Viajes v : todosViajes) {
 			if (idModificar.equals(v.getId())) {
 				System.out.println(
-						"¿Que quieres modificar?\n1 - El viaje completo\n2 - El nombre\n3 - La fecha de Inicio\n4 - La fecha de Fin\n5 - El precio\n6 - El profesor\n7 - Las Plazas Totales\n8 - Nada");
+						"¿Que desea modificar?\n1 - El viaje completo\n2 - El nombre\n3 - La fecha de Inicio\n4 - La fecha de Fin\n5 - El precio\n6 - El profesor\n7 - Las Plazas Totales\n8 - Nada");
 
 				String opcionModificar = sc.nextLine();
 				switch (opcionModificar) {
@@ -305,42 +306,42 @@ public class Menu {
 					v.setPlazasTotales(plazasTotales);
 					int plazasOcupadas = v.getPlazasTotales() - v.getPlazasDisponibles();
 					v.setPlazasDisponibles(plazasTotales - plazasOcupadas);
-					System.out.println("Se ha modificado el viaje: " + v.toString());
+					System.out.println("Viaje modificado con éxito: " + v.toString());
 					break;
 				case "2":
 					// Modificamos el nombre
 					System.out.println("Nuevo nombre del Viaje:");
 					String nuevoNombre = sc.nextLine();
 					v.setNombre(nuevoNombre);
-					System.out.println("Nombre modificado: " + v.toString());
+					System.out.println("Nombre modificado con éxito: " + v.toString());
 					break;
 				case "3":
 					// Modificamos la fecha de inicio
 					System.out.println("Nueva fecha de inicio del viaje:");
 					String nuevaFechaInicio = sc.nextLine();
 					v.setFechaInicio(nuevaFechaInicio);
-					System.out.println("Fecha de Inicio modificada: " + v.toString());
+					System.out.println("Fecha de inicio modificada con éxito: " + v.toString());
 					break;
 				case "4":
 					// Modificamos la fecha de fin
 					System.out.println("Nueva fecha de fin del viaje:");
 					String nuevaFechaFin = sc.nextLine();
 					v.setFechaFin(nuevaFechaFin);
-					System.out.println("Fecha de Fin modificada: " + v.toString());
+					System.out.println("Fecha de fin modificada con éxito: " + v.toString());
 					break;
 				case "5":
 					// Modificamos el precio
 					System.out.println("Nuevo precio del viaje:");
 					int nuevoPrecio = Integer.parseInt(sc.nextLine());
 					v.setPrecio(nuevoPrecio);
-					System.out.println("Precio modificado: " + v.toString());
+					System.out.println("Precio modificado con éxito: " + v.toString());
 					break;
 				case "6":
 					// Modificamos el nombre del profesor
 					System.out.println("Nuevo nombre del Profesor asignado a este viaje:");
 					String nuevoProfesor = sc.nextLine();
 					v.setProfesor(nuevoProfesor);
-					System.out.println("Nombre del Profesor modificado: " + v.toString());
+					System.out.println("Nombre del Profesor modificado con éxito: " + v.toString());
 					break;
 				case "7":
 					// Modificamos las plazas Totales y ademas las disponibles
@@ -349,7 +350,7 @@ public class Menu {
 					int nuevasPlazasOcupadas = v.getPlazasTotales() - v.getPlazasDisponibles();
 					v.setPlazasTotales(nuevasPlazasTotales);
 					v.setPlazasDisponibles(nuevasPlazasTotales - nuevasPlazasOcupadas);
-					System.out.println("Plazas totales y disponibles modificadas: " + v.toString());
+					System.out.println("Plazas totales y disponibles modificadas con éxito: " + v.toString());
 					break;
 
 				}
@@ -378,7 +379,7 @@ public class Menu {
 		}
 		if (eliminado) {
 			todosViajes.remove(index);
-			System.out.println("El viaje a sido eliminado");
+			System.out.println("El viaje ha sido eliminado");
 			eliminado = false;
 			usA.anadirViajeaExcel(todosViajes);
 		} else {
@@ -449,7 +450,7 @@ public class Menu {
 					usA.anadirViajeaExcel(todosViajes);
 					break;
 				} else {
-					System.out.println("No estas inscrito en ese viaje");
+					System.out.println("No estás inscrito en ese viaje");
 					break;
 				}
 			}
