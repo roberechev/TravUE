@@ -26,10 +26,10 @@ import com.opencsv.CSVWriter;
 
 public class UsoArchivos {
 
-	private String rutaViajes = "..\\PruebaMaven\\src\\main\\java\\archivos\\Viajes.csv";
-	private String rutaUsuarios = "..\\PruebaMaven\\src\\main\\java\\archivos\\Usuarios.csv";
-	private String rutaComentarios = "..\\PruebaMaven\\src\\main\\java\\archivos\\Comentarios.csv";
-	private String rutaFicheroIdViajes = "..\\PruebaMaven\\src\\main\\java\\archivos\\IdViajes.csv";
+	private String rutaViajes = "..\\TravUE\\src\\main\\java\\archivos\\Viajes.csv";
+	private String rutaUsuarios = "..\\TravUE\\src\\main\\java\\archivos\\Usuarios.csv";
+	private String rutaComentarios = "..\\TravUE\\src\\main\\java\\archivos\\Comentarios.csv";
+	private String rutaFicheroIdViajes = "..\\TravUE\\src\\main\\java\\archivos\\IdViajes.csv";
 	private String separadorParaLeer = "·";
 
 	/*
